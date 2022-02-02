@@ -32,15 +32,19 @@ class App extends React.Component {
     }
   }
  loadUser = (data) => {
+   console.log("data from <signin>: ",data);
    this.setState({
      user: {
-      id: data.name, 
+      id: data.id, 
       name: data.name,
       email: data.email,
       entries: data.entries,
       joined: data.joined
      }
+   }, () => {
+     setTimeout(() => console.log("userdata from state", this.state.user), 5000)
    })
+
  }
   calculateFaceLocation = (data) =>  {
  
@@ -63,6 +67,7 @@ class App extends React.Component {
     this.setState({input: event.target.value})
   }
   onButtonSubmit = () =>  {
+    console.log("every detect: ", this.state.user.id)
     this.setState({imageUrl: this.state.input});
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
     .then((response) => {
@@ -73,13 +78,13 @@ class App extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: this.state.user.id
+          id: this.state.user.id 
         })
-      }).then(response => response.toString())
+      }).then(response =>  response.json())
       .then(count =>  {
         console.log("count: ", count)
         this.setState({user: {
-          entries: count
+          entries: count``
         }})
       }).catch(console.log)
     }
