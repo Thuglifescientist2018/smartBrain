@@ -83,9 +83,8 @@ class App extends React.Component {
       }).then(response =>  response.json())
       .then(count =>  {
         console.log("count: ", count)
-        this.setState({user: {
-          entries: count``
-        }})
+        this.setState(Object.assign(this.state.user, { entries: count}))
+        console.log("after count update: ", this.state)
       }).catch(console.log)
     }
     this.displayFaceBox(this.calculateFaceLocation(response))

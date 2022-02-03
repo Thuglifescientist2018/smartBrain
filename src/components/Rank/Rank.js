@@ -4,6 +4,7 @@ import React from 'react';
 
 
 function Rank({name, entries}) {
+    console.log("Rank entries: ", entries)
     return (  
         <div>
             <div className='white f3'>
