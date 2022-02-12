@@ -8,28 +8,26 @@ import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
 import './App.css';
 
-import Clarifai from 'clarifai';
-const app = new Clarifai.App({
-  apiKey: 'bf31e40d708243e185e28cf27676a895'
-  });
 
+
+const initialState =  {
+  input: '',
+  imageUrl: '',
+  box: [],
+  route: 'signin',
+  isSignedIn: false,
+  user:  {
+    id: '', 
+        name: '',
+        email: '',
+        entries: 0,
+        joined: ''
+  }
+}
 class App extends React.Component {
   constructor() {
     super();
-    this.state =  {
-      input: '',
-      imageUrl: '',
-      box: [],
-      route: 'signin',
-      isSignedIn: false,
-      user:  {
-        id: '', 
-            name: '',
-            email: '',
-            entries: 0,
-            joined: ''
-      }
-    }
+    this.state = initialState;
   }
  loadUser = (data) => {
    console.log("data from <signin>: ",data);
@@ -69,9 +67,19 @@ class App extends React.Component {
   onButtonSubmit = () =>  {
     console.log("every detect: ", this.state.user.id)
     this.setState({imageUrl: this.state.input});
-    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
+    fetch('http://localhost:3000/imageurl', {
+      method: 'POST',
+      headers : {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: this.state.input 
+      })
+    })
+    .then(response => response.json())
     .then((response) => {
-    if(response) {
+    if(response !== "unable to work with API") {
+      
       fetch('http://localhost:3000/image', {
         method: 'POST',
         headers : {
@@ -93,7 +101,7 @@ class App extends React.Component {
   }
   onRouteChange = (route) =>  {
     if(route === 'signout') {
-      this.setState({isSignedIn: false})
+      this.setState(initialState)
     }
     else if(route === "home") {
       this.setState({isSignedIn: true})
