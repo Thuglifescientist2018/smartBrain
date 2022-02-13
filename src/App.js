@@ -67,7 +67,7 @@ class App extends React.Component {
   onButtonSubmit = () =>  {
     console.log("every detect: ", this.state.user.id)
     this.setState({imageUrl: this.state.input});
-    fetch('http://localhost:3000/imageurl', {
+    fetch('https://enigmatic-ocean-53035.herokuapp.com/imageurl', {
       method: 'POST',
       headers : {
         'Content-Type': 'application/json',
@@ -80,7 +80,7 @@ class App extends React.Component {
     .then((response) => {
     if(response !== "unable to work with API") {
       
-      fetch('http://localhost:3000/image', {
+      fetch('https://enigmatic-ocean-53035.herokuapp.com/image', {
         method: 'POST',
         headers : {
           'Content-Type': 'application/json',
