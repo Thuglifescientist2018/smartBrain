@@ -86,7 +86,9 @@ class App extends React.Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: this.state.user.id 
+          id: this.state.user.id,
+          email: this.state.user.email,
+          image_url: this.state.imageUrl
         })
       }).then(response =>  response.json())
       .then(count =>  {
