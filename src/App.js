@@ -6,6 +6,7 @@ import Rank from './components/Rank/Rank';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import SignIn from './components/SignIn/SignIn';
 import Register from './components/Register/Register';
+
 import './App.css';
 
 
@@ -87,7 +88,8 @@ class App extends React.Component {
         },
         body: JSON.stringify({
           id: this.state.user.id,
-          email: this.state.user.email,
+          username: this.state.user.name,
+          entries: this.state.user.entries,
           image_url: this.state.imageUrl
         })
       }).then(response =>  response.json())
@@ -119,8 +121,10 @@ class App extends React.Component {
       {route === 'home' ? 
             <div>
                   <Logo />
+      
                   <Rank name={this.state.user.name} entries={this.state.user.entries} />
                   <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit} />
+                  
                   <FaceRecognition box={box} imageUrl={imageUrl} />
           </div> 
             
